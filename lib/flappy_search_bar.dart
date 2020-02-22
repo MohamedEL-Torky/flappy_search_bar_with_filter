@@ -31,7 +31,8 @@ class SearchBarController<T> {
   CancelableOperation _cancelableOperation;
   int minimumChars;
 
-  void setTextController(TextEditingController _searchQueryController, minimunChars) {
+  void setTextController(
+      TextEditingController _searchQueryController, minimunChars) {
     this._searchQueryController = _searchQueryController;
     this.minimumChars = minimunChars;
   }
@@ -172,6 +173,12 @@ class SearchBar<T> extends StatefulWidget {
   /// Color of the icon when search bar is active
   final Color iconActiveColor;
 
+  /// Color of the search border
+  final Color borderColor;
+
+  /// Button of the filterButton
+  final IconButton filterButton;
+
   /// Text style of the text in the search bar
   final TextStyle textStyle;
 
@@ -246,6 +253,8 @@ class SearchBar<T> extends StatefulWidget {
     this.listPadding = const EdgeInsets.all(0),
     this.searchBarPadding = const EdgeInsets.all(0),
     this.headerPadding = const EdgeInsets.all(0),
+    this.borderColor,
+    this.filterButton,
   }) : super(key: key);
 
   @override
@@ -268,7 +277,8 @@ class _SearchBarState<T> extends State<SearchBar<T>>
     searchBarController =
         widget.searchBarController ?? SearchBarController<T>();
     searchBarController.setListener(this);
-    searchBarController.setTextController(_searchQueryController, widget.minimumChars);
+    searchBarController.setTextController(
+        _searchQueryController, widget.minimumChars);
   }
 
   @override
@@ -380,7 +390,7 @@ class _SearchBarState<T> extends State<SearchBar<T>>
         Padding(
           padding: widget.searchBarPadding,
           child: Container(
-            height: 80,
+            height: 50,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -391,25 +401,46 @@ class _SearchBarState<T> extends State<SearchBar<T>>
                     decoration: BoxDecoration(
                       borderRadius: widget.searchBarStyle.borderRadius,
                       color: widget.searchBarStyle.backgroundColor,
+                      border:
+                          Border.all(color: widget.iconActiveColor, width: 2),
                     ),
-                    child: Padding(
-                      padding: widget.searchBarStyle.padding,
-                      child: Theme(
-                        child: TextField(
-                          controller: _searchQueryController,
-                          onChanged: _onTextChanged,
-                          style: widget.textStyle,
-                          decoration: InputDecoration(
-                            icon: widget.icon,
-                            border: InputBorder.none,
-                            hintText: widget.hintText,
-                            hintStyle: widget.hintStyle,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: Padding(
+                            padding: widget.searchBarStyle.padding,
+                            child: Theme(
+                              child: TextField(
+                                controller: _searchQueryController,
+                                onChanged: _onTextChanged,
+                                style: widget.textStyle,
+                                decoration: InputDecoration(
+                                  icon: widget.icon,
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                  hintText: widget.hintText,
+                                  hintStyle: widget.hintStyle,
+                                ),
+                              ),
+                              data: Theme.of(context).copyWith(
+                                primaryColor: widget.iconActiveColor,
+                              ),
+                            ),
                           ),
                         ),
-                        data: Theme.of(context).copyWith(
-                          primaryColor: widget.iconActiveColor,
+                        Container(
+                          height: 35,
+                          width: 35,
+                          margin: EdgeInsets.only(right: 10, left: 10),
+                          child: widget.filterButton == null
+                              ? Container()
+                              : widget.filterButton,
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
@@ -447,3 +478,4 @@ class _SearchBarState<T> extends State<SearchBar<T>>
     );
   }
 }
+
