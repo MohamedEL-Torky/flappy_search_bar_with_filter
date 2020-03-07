@@ -417,6 +417,7 @@ class _SearchBarState<T> extends State<SearchBar<T>>
                                 style: widget.textStyle,
                                 decoration: InputDecoration(
                                   icon: widget.icon,
+				  contentPadding: EdgeInsets.only(bottom:15),
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
                                   enabledBorder: InputBorder.none,
