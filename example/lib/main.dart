@@ -41,7 +41,8 @@ class _HomeState extends State<Home> {
 
     var random = new Random();
     for (int i = 0; i < 10; i++) {
-      posts.add(Post("$text $i", "body random number : ${random.nextInt(100)}"));
+      posts
+          .add(Post("$text $i", "body random number : ${random.nextInt(100)}"));
     }
     return posts;
   }
@@ -59,7 +60,8 @@ class _HomeState extends State<Home> {
           placeHolder: Text("placeholder"),
           cancellationWidget: Text("Cancel"),
           emptyWidget: Text("empty"),
-          indexedScaledTileBuilder: (int index) => ScaledTile.count(1, index.isEven ? 2 : 1),
+          indexedScaledTileBuilder: (int index) =>
+              ScaledTile.count(1, index.isEven ? 2 : 1),
           header: Row(
             children: <Widget>[
               RaisedButton(
@@ -99,7 +101,8 @@ class _HomeState extends State<Home> {
                 isThreeLine: true,
                 subtitle: Text(post.body),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => Detail()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Detail()));
                 },
               ),
             );

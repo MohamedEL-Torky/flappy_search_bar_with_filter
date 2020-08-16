@@ -222,6 +222,9 @@ class SearchBar<T> extends StatefulWidget {
   /// Set a padding on the list
   final EdgeInsetsGeometry listPadding;
 
+  /// Scroll Controller for the listview
+  final ScrollController scrollController;
+
   SearchBar({
     Key key,
     @required this.onSearch,
@@ -255,6 +258,7 @@ class SearchBar<T> extends StatefulWidget {
     this.headerPadding = const EdgeInsets.all(0),
     this.borderColor,
     this.filterButton,
+    this.scrollController,
   }) : super(key: key);
 
   @override
@@ -349,6 +353,7 @@ class _SearchBarState<T> extends State<SearchBar<T>>
     return Padding(
       padding: widget.listPadding,
       child: StaggeredGridView.countBuilder(
+        controller: widget.scrollController ?? ScrollController(),
         crossAxisCount: widget.crossAxisCount,
         itemCount: items.length,
         shrinkWrap: widget.shrinkWrap,
@@ -417,7 +422,7 @@ class _SearchBarState<T> extends State<SearchBar<T>>
                                 style: widget.textStyle,
                                 decoration: InputDecoration(
                                   icon: widget.icon,
-				  contentPadding: EdgeInsets.only(bottom:15),
+                                  contentPadding: EdgeInsets.only(bottom: 15),
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
                                   enabledBorder: InputBorder.none,
@@ -479,4 +484,3 @@ class _SearchBarState<T> extends State<SearchBar<T>>
     );
   }
 }
-
